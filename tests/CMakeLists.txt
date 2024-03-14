@@ -6,8 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(ROOT REQUIRED)
 find_package(HDF5 COMPONENTS CXX C REQUIRED)
 find_package(SZ3 REQUIRED)
+find_package(mgard REQUIRED)
 message("Status of SZ3 ${SZ3_FOUND}")
-
+message("Status of MGARD ${mgard_FOUND}")
 set(SZ_INCLUDE_DIRS "" CACHE PATH "Include directory of SZ")
 set(SZ_LIBRARIES "" CACHE PATH "lib file of SZ")
 set(ZSTD_LIBRARIES "" CACHE PATH "lib file for ZSTD")
@@ -21,15 +22,21 @@ include_directories(SYSTEM
                     ${HDF5_INCLUDE_DIRS}
                     ${ROOT_INCLUDE_DIRS}
                     ${SZ_INCLUDE_DIRS}
+                    ${MGARD_INCLUDE_DIRS}
                     )
 
 set(libraries 
     ${ROOT_LIBRARIES}
     ${HDF5_LIBRARIES}
     ${SZ_LIBRARIES}
+    ${MGARD_LIBRARIES}
     ${ZSTD_LIBRARIES}
+    mgard::mgard
 
     )
 
 add_executable(mytest mytest.cxx)
 target_link_libraries(mytest PRIVATE ${libraries} )
+
+add_executable(mytest_mgard mytest_MGARD.cxx)
+target_link_libraries(mytest_mgard PRIVATE ${libraries})
