@@ -25,3 +25,13 @@ void WriteJSonParameter(std::pair<const char*, T>first_parm, Args...args){
     jfile[first_parm.first] = first_parm.second;
     WriteJSonParameter(args...);
 }
+
+template<typename ...Args>
+void WriteJSONConfig(std::string alg_name,Args... args){
+    //need to make sure that naming scheme is safeguarded.
+    assert(alg_name=="MGARD"|| alg_name=="SZ3");
+    jfile["Algorithm"] = alg_name;
+    if(alg_name=="MGARD")jfile["Par_name"] = config_mgard();
+    if(alg_name=="SZ3")jfile["Par_name"] = config_sz3();
+    WriteJSonParameter(args...);
+}
