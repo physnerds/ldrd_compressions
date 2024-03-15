@@ -8,11 +8,27 @@
 #include "H5Cpp.h"
 #include "Math/GoFTest.h"
 #include "mgard/compress.hpp"
+#include "compression_interface/WriteConfigParameters.h"
+
+
 
 //More general example available here:
 //https://github.com/CODARcode/MGARD/blob/master/examples/compression/src/main.cpp
 
 const std::string filename = "/home/abashyal/compressiontests/waveforms.h5";
+
+
+
+template<typename ...Args>
+void WriteJSONConfig(std::string alg_name,Args... args){
+    //need to make sure that naming scheme is safeguarded.
+    assert(alg_name=="MGARD"|| alg_name=="SZ3");
+    jfile["Algorithm"] = alg_name;
+    if(alg_name=="MGARD")jfile["Par_name"] = config_mgard();
+    if(alg_name=="SZ3")jfile["Par_name"] = config_sz3();
+    WriteJSonParameter(args...);
+}
+
 
 
 template<typename T>
@@ -51,6 +67,8 @@ int main(){
     //s = ? --> L1
     const double s = 1;
     const double tolerance = 1E-3;
+    WriteJSONConfig("MGARD",std::make_pair("tolerance",s),std::make_pair("smoothness",tolerance));
+    std::cout<<"Dumping JSON CONTENT \n"<<jfile.dump(4)<<std::endl; 
     std::cout << "compressing ...";
     const mgard::CompressedDataset<1, double> compressed =
     mgard::compress(hierarchy, out_data.data(), s, tolerance);
