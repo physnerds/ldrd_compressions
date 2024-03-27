@@ -4,7 +4,6 @@
 #include "H5Cpp.h"
 #include "Math/GoFTest.h"
 #include "mgard/compress.hpp"
-#include "compression_interface/WriteConfigParameters.h"
 
 class Compressor {
 protected:
@@ -18,6 +17,7 @@ public:
     }
 
     virtual char* compress(const std::vector<float>& data) = 0;
-    virtual std::vector<float> decompress(const std::vector<float>& data) = 0;
+    virtual float* decompress(const std::vector<float>& data) = 0;
+    virtual float* decompress(char* data)=0;
     virtual ~Compressor() {}
 };

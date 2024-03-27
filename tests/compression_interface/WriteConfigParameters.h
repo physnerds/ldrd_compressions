@@ -5,13 +5,13 @@ nlohmann::json jfile;
 //make sure that the config parameters are consistent with 
 //what is being written in the json file.
 std::string config_sz3(){
-    return std::string("error_bound_mode, compression_algorim, interp_method");
+    return std::string("ALGO_OPTIONS, EB_OPTIONS, INTERP_ALGO,ERROR_BOUND");
 }
 
 //If adding new parameters, add this in this function as well...
 //need to find better way here....
 std::string config_mgard(){
-    return std::string("smoothness, tolerance");
+    return std::string("SMOOTHNESS,TOLERANCE");
 }
 
 
