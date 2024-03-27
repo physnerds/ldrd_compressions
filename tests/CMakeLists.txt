@@ -40,3 +40,9 @@ target_link_libraries(mytest PRIVATE ${libraries} )
 
 add_executable(mytest_mgard mytest_MGARD.cxx)
 target_link_libraries(mytest_mgard PRIVATE ${libraries})
+
+add_executable(mytest_mgardgen mytest_MGARDGeneral.cxx)
+target_link_libraries(mytest_mgardgen PRIVATE ${libraries})
+
+add_executable(mytest_json mytest_json.cxx)
+target_link_libraries(mytest_json PRIVATE ${libraries} ROOT::ROOTNTuple )
