@@ -1,0 +1,15 @@
+#Ignore all the build related files....
+tests/build
+
+#Ignore anything that is outside this working directory
+../*.*
+../
+
+#Ignore the hidden files
+../.* 
+
+#Output from the tests
+tests/*.png
+tests/*.root
+
+
