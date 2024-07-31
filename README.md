@@ -38,8 +38,9 @@ Note, for all compression frameworks build, it would be easier down the line if 
 
 ## Clone the test framework
 
-```git clone -b feature/lcrc https://github.com/physnerds/compressiontests.git
-cd compressiontests```
+```git clone -b feature/lcrc https://github.com/physnerds/compressiontests.git```
+
+```cd compressiontests```
 
 ## Assuming you built and installed all the compression frameworks  and related dependencies, use cmake to build the framework.
 
