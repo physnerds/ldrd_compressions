@@ -21,9 +21,10 @@ public:
         interp_map["INTERP_ALGO_CUBIC"] = SZ3::INTERP_ALGO_CUBIC;
 
     }
-    char* compress(const std::vector<float>& input_data) override {
+template<typename T> 
+    char* compress(const std::vector<T>& input_data) {
         // Implement compression using SZ3 based on parameters in params
-        std::vector<float> compressedData;
+        std::vector<T> compressedData;
         //get access to the json file to retrieve the parameters...
         //remember all these parameter names later.
         SZ3::ALGO param_algo = static_cast<SZ3::ALGO>(params.at("ALGO_OPTIONS"));
@@ -42,11 +43,12 @@ public:
         params["Original_size"] = input_data.size();
         return compressed_data;
     }
+
     //AB: To do....
     //I dont think json param can be casted back into SZ3 type objects...
     //maybe use enum type and string to map parameters...
-
-    float* decompress(char* comp_data) override {
+template<typename T> 
+    T* decompress(const char* comp_data) {
         size_t comp_size = static_cast<size_t>(params.at("Compressed_size"));
         size_t orig_size = static_cast<size_t>(params.at("Original_size"));
         SZ3::Config conf(orig_size);
@@ -55,8 +57,9 @@ public:
         conf.interpAlgo = static_cast<SZ3::INTERP_ALGO>(params.at("INTERP_ALGO"));
         conf.absErrorBound = static_cast<double>(params.at("ERROR_BOUND"));
         
-        float* decdata = new float[comp_size];
-        SZ_decompress(conf,comp_data,comp_size,decdata);
+        T* decdata = new T[comp_size];
+	//FIXME Need better way to implement this....
+        SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
         return decdata;
     }
 

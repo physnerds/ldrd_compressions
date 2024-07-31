@@ -15,9 +15,7 @@ public:
             file >> params;
         }
     }
-
-    virtual char* compress(const std::vector<float>& data) = 0;
-    virtual float* decompress(const std::vector<float>& data) = 0;
-    virtual float* decompress(char* data)=0;
+    //virtual char* compress(const std::vector<float>& data) = 0;
+    //virtual float* decompress(const std::vector<float>& data) = 0;
     virtual ~Compressor() {}
 };

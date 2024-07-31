@@ -12,25 +12,31 @@ message("Status of MGARD ${mgard_FOUND}")
 set(SZ_INCLUDE_DIRS "" CACHE PATH "Include directory of SZ")
 set(SZ_LIBRARIES "" CACHE PATH "lib file of SZ")
 set(ZSTD_LIBRARIES "" CACHE PATH "lib file for ZSTD")
+set(IDEALEM_INCLUDE_DIRS "" CACHE PATH "Include directory of IDEALEM")
+set(IDEALEM_LIBRARIES "" CACHE PATH "lib file for IDEALEM")
 
 message("HDF5 LIBRARIES ${HDF5_LIBRARIES}")
 #message("HDF5 CXX LIBRARIES ${HDF5_CXX_LIBRARIES}")
 message("SZ_INCLUDE_DIRECTORIES ${SZ_INCLUDE_DIRS}")
 message("SZ_LIBRARIES ${SZ_LIBRARIES}")
 message("ZSTD_LIBRARIES ${ZSTD_LIBRARIES}")
+message("IDEALEM_INCLUDE_DIRECTORIES ${IDEALEM_INCLUDE_DIRS}")
+message("IDEALEM_LIBRARIES ${IDEALEM_LIBRARIES}")
 include_directories(SYSTEM
                     ${HDF5_INCLUDE_DIRS}
                     ${ROOT_INCLUDE_DIRS}
                     ${SZ_INCLUDE_DIRS}
                     ${MGARD_INCLUDE_DIRS}
+                    ${IDEALEM_INCLUDE_DIRS}
                     )
 
 set(libraries 
     ${ROOT_LIBRARIES}
     ${HDF5_LIBRARIES}
     ${SZ_LIBRARIES}
-    ${MGARD_LIBRARIES}
+    #${MGARD_LIBRARIES}
     ${ZSTD_LIBRARIES}
+    ${IDEALEM_LIBRARIES}
     mgard::mgard
 
     )
@@ -44,5 +50,12 @@ target_link_libraries(mytest_mgard PRIVATE ${libraries})
 add_executable(mytest_mgardgen mytest_MGARDGeneral.cxx)
 target_link_libraries(mytest_mgardgen PRIVATE ${libraries})
 
-add_executable(mytest_json mytest_json.cxx)
-target_link_libraries(mytest_json PRIVATE ${libraries} ROOT::ROOTNTuple )
+add_executable(mytest_idealem mytest_idealem.cxx)
+target_link_libraries(mytest_idealem PRIVATE ${libraries})
+
+#add_executable(mytest_idealem_RNTUPLE mytest_idealem_RNTUPLE.cxx)
+#target_link_libraries(mytest_idealem_RNTUPLE PRIVATE ${libraries} ROOT::ROOTNTuple)
+
+
+#add_executable(mytest_json mytest_json.cxx)
+#target_link_libraries(mytest_json PRIVATE ${libraries} ROOT::ROOTNTuple )

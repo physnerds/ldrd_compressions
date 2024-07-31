@@ -12,8 +12,8 @@
 #include "compression_interface/Utilities.hxx"
 
 //This test is to test the utilities and fix them....
+//const std::string filename = "/home/abashyal/compressiontests/MJD_NPML_0_1D.hdf5";//"/home/abashyal/compressiontests/waveforms_ver2.h5";
 const std::string filename = "/home/abashyal/compressiontests/waveforms_ver2.h5";
-
 R__LOAD_LIBRARY(ROOTNTuple)
 
 using namespace ROOT::Experimental;
@@ -26,9 +26,9 @@ void compressfile(){
     //set the compression configuration....
     WriteJSONConfig("SZ3",
         std::make_pair("ALGO_OPTIONS",SZ3::ALGO_LORENZO_REG),
-        std::make_pair("EB_OPTIONS",SZ3::EB_ABS_OR_REL),
+        std::make_pair("EB_OPTIONS",SZ3::EB_ABS),
         std::make_pair("INTERP_ALGO",SZ3::INTERP_ALGO_LINEAR),
-        std::make_pair("ERROR_BOUND",1E-3),
+        std::make_pair("ERROR_BOUND",1E-2),
         std::make_pair("ORIGINAL_SIZE",out_data.size())
         );
     
@@ -98,6 +98,9 @@ void decompressfile(){
     auto comp_ratio = sizeof(double)*orig_data.size()/(sizeof(char)*cmpSize);
 
     std::cout<<"KS TEST "<<ksVal<<" CR "<<comp_ratio<<std::endl;
+    std::cout<<"Dumping json \n "<<jobj.dump(4)<<std::endl;
+    DrawGraphs(decomp_data,orig_data.data(),orig_data.size(),"SZ3.png",ksVal,comp_ratio);
+
 }
 
 int main(){

@@ -7,7 +7,7 @@
 #include "TCanvas.h"
 #include <iostream>
 
-const std::string filename = "/home/abashyal/compressiontests/waveforms_ver2.h5";
+const std::string filename ="/home/abashyal/compressiontests/waveforms.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
 
 
 template<typename T>
@@ -97,7 +97,7 @@ void test_compression(SZ3::EB eb, SZ3::ALGO algo, SZ3::INTERP_ALGO ialgo,SZ3::Co
     auto test = ROOT::Math::GoFTest(out_data.size(),out_data.data(),out_data.size(),decompressed_data);
 
     auto ksVal = test.KolmogorovSmirnov2SamplesTest();
-    auto  comp_ratio = sizeof(double)*out_data.size()/(sizeof(char)*cmpSize);
+    auto comp_ratio = sizeof(double)*out_data.size()/(sizeof(char)*cmpSize);
     std::cout<<SZ3::enum2Str(eb)<<","<<SZ3::enum2Str(algo)<<","<<SZ3::enum2Str(ialgo)<<","<<ksVal<<","<<comp_ratio<<std::endl;
 
     std::string fname = std::string(SZ3::enum2Str(eb))+"_"+SZ3::enum2Str(algo)+"_"+SZ3::enum2Str(ialgo)+".png";
@@ -109,7 +109,7 @@ void test_compression(SZ3::EB eb, SZ3::ALGO algo, SZ3::INTERP_ALGO ialgo,SZ3::Co
 
 int main(){ 
     H5::H5File file(filename,H5F_ACC_RDONLY);
-    std::string dsetname = "waveform_1";
+    std::string dsetname = "waveform_1";//"waveform_1";
     std::vector<double> out_data = ReturnH5Data<double>(file,dsetname);
     std::cout<<"Error Bound,Algorithm, Interpolation Algorithm,KSVAL,Compression-Ratio"<<std::endl;
     for(auto al_val: SZ3::ALGO_OPTIONS){
