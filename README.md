@@ -1,6 +1,24 @@
 # compressiontests
 
-## Repository to test compression of waveform like data with different compression algorithms. Starting with SZ3
+## Introduction
+This git project provides tools to create synthetic waveform and uses different intelligent compression frameworks to look at the compression and decompression of those synthetic waveform data. 
+
+## Checkout code from github
+We will be using the lcrc branch for the development. As the code evolves, we will merge with the main branch.
+
+### Download the project
+```git clone git@github.com:physnerds/compressiontests.git```
+
+### Checkout the lcrc branch.
+```git checkout feature/lcrc```
+
+## Waveform generator codes
+There are python macros that generates synthetic waveforms.
+1. write_hdf5data.py: This creates the synthetic waveforms and writes into hdf5 file.
+
+2. analyze_hdf5.ipynb: This jupyter-notebook has an example of analyzing the synthetic waveforms that are created by write_hdf5data.py. 
+Usually jupyter-notebook comes with ROOT installation (Instruction on ROOT installation is given below.)
+
 
 ## Requirements
 
