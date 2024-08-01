@@ -66,7 +66,7 @@ Note, for all compression frameworks build, it would be easier down the line if 
 Assuming you are in ```tests``` directory
 ```mkdir build; cd build```
 
-```cmake .. -DZSTD_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libzstd.so -DCMAKE_PREFIX_PATH=/path/to/compressiontests/SZ3_install/lib64/cmake -Dmgard_DIR=/path/to/compressiontests/MGARD_install/lib64/cmake/mgard -DSZ_INCLUDE_DIRS=/path/to/compressiontests/SZ3_install/include -DSZ_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libSZ3c.so -DIDEALEM_INCLUDE_DIRS=/path/to/compressiontests/idealem-package/build/include -DIDEALEM_LIBRARIES=/path/to/compressiontests/idealem-package/build/lib/libidealem_cxx.a```
+```cmake .. -DZSTD_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libzstd.so -DCMAKE_PREFIX_PATH=/path/to/compressiontests/SZ3_install/lib64/cmake -Dmgard_DIR=/path/to/compressiontests/MGARD_install/lib64/cmake/mgard -DSZ_INCLUDE_DIRS=/path/to/compressiontests/SZ3_install/include -DSZ_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libSZ3c.so -DIDEALEM_INCLUDE_DIRS=/path/to/compressiontests/idealem-package_install/include -DIDEALEM_LIBRARIES=/path/to/compressiontests/idealem-package_installlib/libidealem_cxx.a```
 
 And compile the code:
 ```make```
