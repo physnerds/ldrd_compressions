@@ -11,6 +11,7 @@
 (I would recommend to install cmake before installing anything else so that there are no conflicts down the line between ROOT build and other builds 
 ```https://anaconda.org/anaconda/cmake```
 )
+
 2. ROOT installation via Conda is given here (https://root.cern/install/#install-via-a-package-manager)
 It also gives example on how to create a conda environment inside which you can install all the required dependencies. 
 
@@ -42,7 +43,7 @@ Note, for all compression frameworks build, it would be easier down the line if 
 
 ```cd compressiontests```
 
-## Assuming you built and installed all the compression frameworks  and related dependencies, use cmake to build the framework.
+ Assuming you built and installed all the compression frameworks  and related dependencies, use cmake to build the framework.
 
 Assuming you are in ```tests``` directory
 ```mkdir build; cd build```
