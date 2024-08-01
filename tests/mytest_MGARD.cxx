@@ -7,6 +7,7 @@
 #include <vector>
 #include "H5Cpp.h"
 #include "Math/GoFTest.h"
+//Interface related headers...
 #include "compression_interface/Utilities.hxx"
 #include "compression_interface/WriteConfigParameters.h"
 #include "compression_interface/MGARDCompressionTools.hxx"
@@ -44,6 +45,7 @@ int main(){
     std::cout<<"Dumping JSON CONTENT \n"<<jfile.dump(4)<<std::endl; 
     
     std::string jfilename =  "params_mgard.json";
+    //json file to write the parameters...
     writeJSON(jfile,jfilename);
     MGARDCompressor mgard(jfilename);
     char* compressed_data = mgard.compress<double>(out_data);
@@ -52,6 +54,8 @@ int main(){
     auto ksval = CalculateKSVal<double>(out_data.size(),out_data.data(),decompressed_data);
     std::cout<<"KSVAL is "<<ksval<<std::endl;
     mgard.dumpJSONContent();
+    
+    //Draw the plots of original and decompressed data
     
     return 1;
 }

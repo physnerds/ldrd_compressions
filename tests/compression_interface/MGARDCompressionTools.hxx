@@ -48,12 +48,8 @@ template<typename T>
         mgard_x::Config config;
         mgard_x::decompress(comp_data,out_byte,
             decompressed_array,config,false);
-	params["Compressed_size"] = out_byte;
+	    params["Compressed_size"] = out_byte;
         return static_cast<T*>(decompressed_array);
-    }
-
-    void dumpJSONContent(){
-      std::cout<<"MGARD JSON \n"<<params.dump(4)<<std::endl;
     }
 
 };

@@ -2,24 +2,14 @@
 #include "SZ3/api/sz.hpp"
 #include "SZ3/utils/Config.hpp"
 
+//RNTUPLE headers
+#include <ROOT/RNTuple.hxx>
+#include <ROOT/RNTupleModel.hxx>
+
 //class for the SZ3 Compressor
 class SZ3Compressor : public Compressor {
 public:
     SZ3Compressor(const std::string& paramFile) : Compressor(paramFile) {
-        // Initialize maps in the constructor
-        algo_map["ALGO_LORENZO_REG"] = SZ3::ALGO_LORENZO_REG;
-        algo_map["ALGO_INTERP_LORENZO"] = SZ3::ALGO_INTERP_LORENZO;
-        algo_map["ALGO_INTERP"] = SZ3::ALGO_INTERP;
-
-        eb_map["ABS"] = SZ3::EB_ABS;
-        eb_map["REL"] = SZ3::EB_REL;
-        eb_map["PSNR"] = SZ3::EB_PSNR;
-        eb_map["NORM"] = SZ3::EB_L2NORM;
-        eb_map["ABS_AND_REL"] = SZ3::EB_ABS_AND_REL;
-
-        interp_map["INTERP_ALGO_LINEAR"] = SZ3::INTERP_ALGO_LINEAR;
-        interp_map["INTERP_ALGO_CUBIC"] = SZ3::INTERP_ALGO_CUBIC;
-
     }
 template<typename T> 
     char* compress(const std::vector<T>& input_data) {
@@ -57,19 +47,18 @@ template<typename T>
         conf.interpAlgo = static_cast<SZ3::INTERP_ALGO>(params.at("INTERP_ALGO"));
         conf.absErrorBound = static_cast<double>(params.at("ERROR_BOUND"));
         
-        T* decdata = new T[comp_size];
+        T* decdata = new T[orig_size];
 	//FIXME Need better way to implement this....
         SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
         return decdata;
     }
+    
+    size_t GetCompressedSize(){
+        return cmpSize;
+    }
 
 private:
     size_t cmpSize;
-
-    std::map<std::string, SZ3::ALGO> algo_map;
-    std::map<std::string, SZ3::EB> eb_map;    
-    std::map<std::string, SZ3::INTERP_ALGO>interp_map;
-
     
 };
 

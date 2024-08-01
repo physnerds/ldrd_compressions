@@ -44,6 +44,9 @@ set(libraries
 add_executable(mytest mytest.cxx)
 target_link_libraries(mytest PRIVATE ${libraries} )
 
+add_executable(mytest_sz3 mytest_SZ3.cxx)
+target_link_libraries(mytest_sz3 PRIVATE ${libraries} ROOT::ROOTNTuple)
+
 add_executable(mytest_mgard mytest_MGARD.cxx)
 target_link_libraries(mytest_mgard PRIVATE ${libraries})
 

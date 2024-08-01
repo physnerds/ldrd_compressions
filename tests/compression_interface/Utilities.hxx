@@ -136,7 +136,7 @@ void DrawGraphs(double* orig_data, double* decomp_data, size_t dat_size,std::str
     pad2->Update();
     //c->BuildLegend();
     c->SaveAs(cfname.c_str());
-    c->SaveAs((cfname+".root").c_str());
+    //c->SaveAs((cfname+".root").c_str());
 }
 
 std::string readJSONFile(const std::string& filePath) {

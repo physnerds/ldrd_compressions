@@ -73,16 +73,13 @@ And compile the code:
 
 ## Test Codes
 
-1. write_hdf5data.py: This generates synthetic waveform like data (which are basically superposition of sine and cosine waves) and writes into HDF5
 
-2. analyze_hdf5.ipynb: This is a jupyter-notebook notebook that shows how to draw waveform like data from the HDF5 file and do some low-level inspections (print content, size of the data-sets etc)
-
-3. mytest.cxx: A standalone test code that uses SZ3 to compress and decompress the synthetic waveform data, calculate KS value, compression ratio and draw original and decompressed waveform data. 
+1. mytest.cxx: A standalone test code that uses SZ3 to compress and decompress the synthetic waveform data, calculate KS value, compression ratio and draw original and decompressed waveform data. 
 TODO: Use the compression_interface tool SZ3CompressionTools.cxx to compress and decompress the data instead.
 
-4. mytest_mgard.cxx: A test code that uses the APIs of the compression framework (based on MGARD) to do compression and decompression of the synthetic waveform data. TODO: Check out how plots of original and decompressed data are done in example 3 and try to reimplement it here.
+2. mytest_mgard.cxx: A test code that uses the APIs of the compression framework (based on MGARD) to do compression and decompression of the synthetic waveform data. TODO: Check out how plots of original and decompressed data are done in example 3 and try to reimplement it here.
 
-5. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
+3. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
 TODO: Use the compression_interface IDEALEMCompressionTools.hxx to do compression and decompression of the data instead.
 
 
