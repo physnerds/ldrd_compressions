@@ -20,14 +20,24 @@ template<typename T>
         SZ3::ALGO param_algo = static_cast<SZ3::ALGO>(params.at("ALGO_OPTIONS"));
         SZ3::EB param_eb = static_cast<SZ3::EB>(params.at("EB_OPTIONS"));
         SZ3::INTERP_ALGO param_inter_algo = static_cast<SZ3::INTERP_ALGO>(params.at("INTERP_ALGO"));
-        double error_bound = static_cast<double>(params.at("ERROR_BOUND"));
+        double abs_error_bound = static_cast<double>(params.at("ABS_ERROR_BOUND"));
+        double rel_error_bound = static_cast<double>(params.at("REL_ERROR_BOUND"));
+        double psnr_error_bound = static_cast<double>(params.at("PSNR_ERROR_BOUND"));
+        double l2norm_error_bound = static_cast<double>(params.at("L2NORM_ERROR_BOUND"));
+
         SZ3::Config conf(input_data.size());
 
         //Now the compression...
         conf.cmprAlgo = param_algo;
         conf.errorBoundMode = param_eb;
         conf.interpAlgo = param_inter_algo;
-        conf.absErrorBound = error_bound;
+        //Put all the assigned error_bound values...
+        //compression alo
+        conf.absErrorBound = abs_error_bound;
+        conf.relErrorBound = rel_error_bound;
+        conf.psnrErrorBound = psnr_error_bound;
+        conf.l2normErrorBound = l2norm_error_bound;
+
         char* compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
         params["Compressed_size"] = cmpSize;
         params["Original_size"] = input_data.size();
@@ -45,8 +55,10 @@ template<typename T>
         conf.cmprAlgo = static_cast<SZ3::ALGO>(params.at("ALGO_OPTIONS"));
         conf.errorBoundMode = static_cast<SZ3::EB>(params.at("EB_OPTIONS"));
         conf.interpAlgo = static_cast<SZ3::INTERP_ALGO>(params.at("INTERP_ALGO"));
-        conf.absErrorBound = static_cast<double>(params.at("ERROR_BOUND"));
-        
+        conf.absErrorBound = static_cast<double>(params.at("ABS_ERROR_BOUND"));
+        conf.relErrorBound = static_cast<double>(params.at("REL_ERROR_BOUND"));
+        conf.psnrErrorBound = static_cast<double>(params.at("PSNR_ERROR_BOUND"));
+        conf.l2normErrorBound = static_cast<double>(params.at("L2NORM_ERROR_BOUND"));
         T* decdata = new T[orig_size];
 	//FIXME Need better way to implement this....
         SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);

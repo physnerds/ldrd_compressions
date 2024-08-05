@@ -28,18 +28,28 @@ int main(){
             for(auto al_ial: SZ3::INTERP_ALGO_OPTIONS){
                 //we are creating a json file first...
                 //TODO : Maybe use err_bound also as a parameter to do the test?
-                double err_bound = 0.005 ; 
+                double abs_err_bound = 0.005 ;
+                double rel_err_bound = 0.005;
+                double psnr_err_bound = 0.005;
+                double l2norm_err_bound = 0.005;
                 std::string str_al_val = std::string(SZ3::enum2Str<SZ3::ALGO>(al_val));
                 std::string str_al_eb = std::string(SZ3::enum2Str<SZ3::EB>(al_eb));
                 std::string str_al_ial = std::string(SZ3::enum2Str<SZ3::INTERP_ALGO>(al_ial));
-                std::string str_err_bound = std::to_string(err_bound);
-                std::string temp_name = "params_sz3_"+str_al_val+"_"+str_al_eb+"_"+str_al_ial+"_"+str_err_bound;
+                std::string str_abs_err_bound = std::to_string(abs_err_bound);
+                std::string str_rel_err_bound = std::to_string(abs_err_bound);
+                std::string str_psnr_err_bound = std::to_string(abs_err_bound);
+                std::string str_l2norm_err_bound = std::to_string(l2norm_err_bound);
+                std::string temp_name = "params_sz3_"+str_al_val+"_"+
+                    str_al_eb+"_"+str_al_ial+"_"+str_abs_err_bound+"_"+str_rel_err_bound+"_"+str_psnr_err_bound+"_"+str_l2norm_err_bound;
                 std::string jfilename = temp_name+".json";
                 WriteJSONConfig("SZ3",
                 std::make_pair("ALGO_OPTIONS",al_val),
                 std::make_pair("EB_OPTIONS",al_eb),
                 std::make_pair("INTERP_ALGO",al_ial),
-                std::make_pair("ERROR_BOUND",err_bound)   
+                std::make_pair("ABS_ERROR_BOUND",abs_err_bound),
+                std::make_pair("REL_ERROR_BOUND",rel_err_bound),
+                std::make_pair("PSNR_ERROR_BOUND",psnr_err_bound),
+                std::make_pair("L2NORM_ERROR_BOUND",l2norm_err_bound)  
                 );
                 //now the json file to write the parameters..
                 writeJSON(jfile,jfilename);

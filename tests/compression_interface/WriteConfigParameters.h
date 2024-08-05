@@ -5,7 +5,7 @@ nlohmann::json jfile;
 //make sure that the config parameters are consistent with 
 //what is being written in the json file.
 std::string config_sz3(){
-    return std::string("ALGO_OPTIONS, EB_OPTIONS, INTERP_ALGO,ERROR_BOUND");
+    return std::string("ALGO_OPTIONS, EB_OPTIONS, INTERP_ALGO,ERROR_BOUND_TYPE,ABS_ERROR_BOUND,REL_ERROR_BOUND,PSNR_ERROR_BOUND,L2NORM_ERROR_BOUND");
 }
 
 //If adding new parameters, add this in this function as well...
