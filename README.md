@@ -66,7 +66,7 @@ Note, for all compression frameworks build, it would be easier down the line if 
 Assuming you are in ```tests``` directory
 ```mkdir build; cd build```
 
-```cmake .. -DZSTD_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libzstd.so -DCMAKE_PREFIX_PATH=/path/to/compressiontests/SZ3_install/lib64/cmake -Dmgard_DIR=/path/to/compressiontests/MGARD_install/lib64/cmake/mgard -DSZ_INCLUDE_DIRS=/path/to/compressiontests/SZ3_install/include -DSZ_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libSZ3c.so -DIDEALEM_INCLUDE_DIRS=/path/to/compressiontests/idealem-package_install/include -DIDEALEM_LIBRARIES=/path/to/compressiontests/idealem-package_installlib/libidealem_cxx.a```
+```cmake .. -DZSTD_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libzstd.so -DCMAKE_PREFIX_PATH=/path/to/compressiontests/SZ3_install/lib64/cmake -Dmgard_DIR=/path/to/compressiontests/MGARD_install/lib64/cmake/mgard -DSZ_INCLUDE_DIRS=/path/to/compressiontests/SZ3_install/include -DSZ_LIBRARIES=/path/to/compressiontests/SZ3_install/lib64/libSZ3c.so -DIDEALEM_INCLUDE_DIRS=/path/to/compressiontests/idealem-package_install/include -DIDEALEM_LIBRARIES=/path/to/compressiontests/idealem-package_install/lib/libidealem_cxx.a```
 
 And compile the code:
 ```make```
@@ -77,11 +77,13 @@ And compile the code:
 1. mytest.cxx: A standalone test code that uses SZ3 to compress and decompress the synthetic waveform data, calculate KS value, compression ratio and draw original and decompressed waveform data. 
 TODO: Use the compression_interface tool SZ3CompressionTools.cxx to compress and decompress the data instead.
 
-2. mytest_mgard.cxx: A test code that uses the APIs of the compression framework (based on MGARD) to do compression and decompression of the synthetic waveform data. TODO: Check out how plots of original and decompressed data are done in example 3 and try to reimplement it here.
+3. mytest_SZ3.cxx: A test code that uses the APIs of the compression framework (based on SZ3) to do the compression and decompression of the synthetic waveform and writes the original and compressed waveform in RNTuple along with the compression parameters.
 
-3. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
+3. mytest_mgard.cxx: A test code that uses the APIs of the compression framework (based on MGARD) to do compression and decompression of the synthetic waveform data. 
+TODO: Check out how plots of original and decompressed data are done in example 3 and try to reimplement it here.
+
+4. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
 TODO: Use the compression_interface IDEALEMCompressionTools.hxx to do compression and decompression of the data instead.
-
 
 
 
