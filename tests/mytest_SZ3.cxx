@@ -66,7 +66,7 @@ int main(){
 
                     std::size_t compressed_size = sz3compress.GetCompressedSize();
                     double comp_ratio = double(sizeof(double)*out_data.size()/(sizeof(char)*compressed_size));
-
+                    jfile["COMPRESSION_RATIO"] = comp_ratio;
                     //Draw the plots...
                     //DrawGraphs(out_data.data(),decompressed_data,out_data.size(),temp_name+".png",ksval,comp_ratio);
                     //dump the compression parameter....
