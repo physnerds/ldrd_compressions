@@ -5,7 +5,7 @@
 #include "compression_interface/SZ3CompressionTools.hxx"
 
 const std::string filename ="/home/abashyal/git_compression/compressiontests/waveforms.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
-const std::string outfilename = "/tmp/abashyal/test_SZ3_compression.root" ; 
+const std::string outfilename = "test_SZ3_compression.root" ; 
 
 int main(){ 
     H5::H5File file(filename,H5F_ACC_RDONLY);
@@ -60,7 +60,7 @@ int main(){
                     //apply compression....
                     char* compressed_data = sz3compress.compress<double>(out_data);
 
-                    double* decompressed_data = sz3compress.decompress<double>(compressed_data);
+                    double* decompressed_data = sz3compress.decompress<double>(compressed_data,jfile);
                     
                     auto ksval = CalculateKSVal<double>(out_data.size(),out_data.data(),decompressed_data);
 
