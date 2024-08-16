@@ -20,7 +20,7 @@ int main(){
     auto param = model->MakeField<std::string>("parameters");
 
     auto ntuple = ROOT::Experimental::RNTupleWriter::Recreate(std::move(model), "Compressions", outfilename.c_str());
-    for(int dval = 0; dval<500; dval++){
+    for(int dval = 0; dval<5; dval++){
         std::string dsetname = "waveform_"+std::to_string(dval);
         std::cout<<"Compressing dataset "<<dsetname<<std::endl;
         std::vector<double>out_data = ReturnH5Data<double>(file,dsetname);
@@ -42,8 +42,9 @@ int main(){
                     std::string str_rel_err_bound = std::to_string(abs_err_bound);
                     std::string str_psnr_err_bound = std::to_string(abs_err_bound);
                     std::string str_l2norm_err_bound = std::to_string(l2norm_err_bound);
-                    std::string temp_name = "params_sz3_"+str_al_val+"_"+
-                        str_al_eb+"_"+str_al_ial+"_"+str_abs_err_bound+"_"+str_rel_err_bound+"_"+str_psnr_err_bound+"_"+str_l2norm_err_bound;
+                    //std::string temp_name = "params_sz3_"+str_al_val+"_"+
+                    //    str_al_eb+"_"+str_al_ial+"_"+str_abs_err_bound+"_"+str_rel_err_bound+"_"+str_psnr_err_bound+"_"+str_l2norm_err_bound;
+                    std::string temp_name = "params_sz3";
                     std::string jfilename = temp_name+".json";
                     WriteJSONConfig("SZ3",
                     std::make_pair("ALGO_OPTIONS",al_val),
@@ -52,7 +53,7 @@ int main(){
                     std::make_pair("ABS_ERROR_BOUND",abs_err_bound),
                     std::make_pair("REL_ERROR_BOUND",rel_err_bound),
                     std::make_pair("PSNR_ERROR_BOUND",psnr_err_bound),
-                    std::make_pair("L2NORM_ERROR_BOUND",l2norm_err_bound)  
+                    std::make_pair("L2NORM_ERROR_BOUND",l2norm_err_bound)
                     );
                     //now the json file to write the parameters..
                     writeJSON(jfile,jfilename);
@@ -60,18 +61,23 @@ int main(){
                     //apply compression....
                     char* compressed_data = sz3compress.compress<double>(out_data);
 
-                    double* decompressed_data = sz3compress.decompress<double>(compressed_data,jfile);
+                    double* decompressed_data = sz3compress.decompress<double>(compressed_data);
                     
                     auto ksval = CalculateKSVal<double>(out_data.size(),out_data.data(),decompressed_data);
 
                     std::size_t compressed_size = sz3compress.GetCompressedSize();
                     double comp_ratio = double(sizeof(double)*out_data.size()/(sizeof(char)*compressed_size));
                     jfile["COMPRESSION_RATIO"] = comp_ratio;
-                    //Draw the plots...
+                    jfile["ORIGINAL DSET"] = dsetname; //this is needed to keep track of original dset.
+
+                    //this is to make sure that the json content is updated before writing into rntuple.
+                    sz3compress.UpdateJSONContent(jfile);
+                    double tranformed_error = jfile.at("Transformed_Error");
+                    std::string rfilename = temp_name+std::to_string(tranformed_error);
+            
                     //DrawGraphs(out_data.data(),decompressed_data,out_data.size(),temp_name+".png",ksval,comp_ratio);
                     //dump the compression parameter....
-                    //sz3compress.dumpJSONContent();
-
+                    //sz3compress.dumpJSONContent();                    
                     param->clear();
                     *param = jfile.dump();
 
