@@ -12,14 +12,14 @@ public:
     SZ3Compressor(const std::string& paramFile) : Compressor(paramFile) {
     }
 
-    void ManageConfigFile(SZ3::Config& conf,nlohmann::json& jparams){
-        SZ3::ALGO param_algo = static_cast<SZ3::ALGO>(jparams.at("ALGO_OPTIONS"));
-        SZ3::EB param_eb = static_cast<SZ3::EB>(jparams.at("EB_OPTIONS"));
-        SZ3::INTERP_ALGO param_inter_algo = static_cast<SZ3::INTERP_ALGO>(jparams.at("INTERP_ALGO"));
-        double abs_error_bound = static_cast<double>(jparams.at("ABS_ERROR_BOUND"));
-        double rel_error_bound = static_cast<double>(jparams.at("REL_ERROR_BOUND"));
-        double psnr_error_bound = static_cast<double>(jparams.at("PSNR_ERROR_BOUND"));
-        double l2norm_error_bound = static_cast<double>(jparams.at("L2NORM_ERROR_BOUND")); 
+    void ManageConfigFile(SZ3::Config& conf){
+        SZ3::ALGO param_algo = static_cast<SZ3::ALGO>(params.at("ALGO_OPTIONS"));
+        SZ3::EB param_eb = static_cast<SZ3::EB>(params.at("EB_OPTIONS"));
+        SZ3::INTERP_ALGO param_inter_algo = static_cast<SZ3::INTERP_ALGO>(params.at("INTERP_ALGO"));
+        double abs_error_bound = static_cast<double>(params.at("ABS_ERROR_BOUND"));
+        double rel_error_bound = static_cast<double>(params.at("REL_ERROR_BOUND"));
+        double psnr_error_bound = static_cast<double>(params.at("PSNR_ERROR_BOUND"));
+        double l2norm_error_bound = static_cast<double>(params.at("L2NORM_ERROR_BOUND")); 
 
         conf.cmprAlgo = param_algo;
         conf.errorBoundMode = param_eb;
@@ -39,21 +39,24 @@ template<typename T>
         SZ3::Config conf(input_data.size());
 
         //params is protected member of CompressionTools.hxx
-        ManageConfigFile(conf,params);
+        ManageConfigFile(conf);
 
         char* compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
         params["Compressed_size"] = cmpSize;
         params["Original_size"] = input_data.size();
+
+        SZ3::calAbsErrorBound(conf, input_data.data());
+        params["Transformed_Error"] = conf.absErrorBound;
         return compressed_data;
     }
 
 
 template<typename T> 
-    T* decompress(const char* comp_data, nlohmann::json& jparams) {
-        size_t orig_size = static_cast<size_t>(jparams.at("Original_size"));
-        size_t comp_size = static_cast<size_t>(jparams.at("Compressed_size"));
+    T* decompress(const char* comp_data) {
+        size_t orig_size = static_cast<size_t>(params.at("Original_size"));
+        size_t comp_size = static_cast<size_t>(params.at("Compressed_size"));
         SZ3::Config conf(orig_size);
-        ManageConfigFile(conf,jparams);
+        ManageConfigFile(conf);
         T* decdata = new T[orig_size];
         SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
         return decdata;
@@ -62,6 +65,7 @@ template<typename T>
     size_t GetCompressedSize(){
         return cmpSize;
     }
+
 
 private:
     size_t cmpSize;

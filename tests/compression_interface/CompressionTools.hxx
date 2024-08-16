@@ -26,5 +26,15 @@ public:
       std::cout<<"JSON \n"<<params.dump(4)<<std::endl;
     }
 
+    virtual void UpdateJSONContent(nlohmann::json& jobj){
+        for(auto it = params.begin(); it != params.end(); ++it){
+            if(jobj.find(it.key())==jobj.end()){
+                jobj[it.key()] = it.value();
+            } else if(it->is_object()){
+                UpdateJSONContent(jobj[it.key()]);
+            }
+        }
+    }
+
 };
 #endif

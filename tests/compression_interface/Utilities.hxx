@@ -153,4 +153,8 @@ void writeJSON(nlohmann::json jobj,std::string f_name){
     outfile.close();
 }
 
+nlohmann::json readJSONString(std:: string jstring){
+    return nlohmann::json::parse(jstring);
+}
+
 #endif
