@@ -78,7 +78,7 @@ class waveforms:
             data = self.generate_parameters()
             if i>=dset_idx and i<=dset_end_idx:
                 self.spike_waveform( data, signal_strength, idx)
-                idx+=1
+                idx+=100
             dset_name = "waveform_"+str(i)
             self.hfile.create_dataset(dset_name,data=data)
     ###############################################################
