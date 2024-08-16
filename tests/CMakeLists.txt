@@ -56,9 +56,9 @@ target_link_libraries(mytest_mgardgen PRIVATE ${libraries})
 add_executable(mytest_idealem mytest_idealem.cxx)
 target_link_libraries(mytest_idealem PRIVATE ${libraries})
 
+add_executable(decompress_sz3_test decompress_sz3_test.cxx)
+target_link_libraries(decompress_sz3_test PRIVATE ${libraries} ROOT::ROOTNTuple)
+
 #add_executable(mytest_idealem_RNTUPLE mytest_idealem_RNTUPLE.cxx)
 #target_link_libraries(mytest_idealem_RNTUPLE PRIVATE ${libraries} ROOT::ROOTNTuple)
 
-
-#add_executable(mytest_json mytest_json.cxx)
-#target_link_libraries(mytest_json PRIVATE ${libraries} ROOT::ROOTNTuple )
