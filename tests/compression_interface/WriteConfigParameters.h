@@ -31,6 +31,7 @@ void WriteJSonParameter(std::pair<const char*, T>first_parm, Args...args){
 
 template<typename ...Args>
 void WriteJSONConfig(std::string alg_name,Args... args){
+    jfile.clear();
     //need to make sure that naming scheme is safeguarded.
     assert(alg_name=="MGARD"|| alg_name=="SZ3"|| alg_name=="IDEALEM");
     jfile["Algorithm"] = alg_name;
