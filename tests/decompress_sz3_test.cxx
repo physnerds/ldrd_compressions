@@ -20,10 +20,12 @@ int main(){
     reader->PrintInfo();
     auto nentries = reader->GetNEntries();
     TH2D* decompressed_hist = new TH2D("decompressed_value","decompressed_value",n_channels,0,n_channels-1,n_ticks,0,n_ticks-1);
+    TH2D* original_hist = (TH2D*)decompressed_hist->Clone("original_value");
     TH1D* comp_ratio = new TH1D("compression_ratio","compression_ratio",n_channels,0,n_channels-1);
 
     std::cout<<"Total Entries "<<nentries<<std::endl;
     auto fieldCompressedData = reader->GetView<std::vector<char>>("compressed_data");
+    auto fieldOutData = reader->GetView<std::vector<double>>("out_data");
     auto param = reader->GetView<std::string>("parameters");
 
     for(size_t entry = 0; entry<n_channels;entry++){
@@ -35,11 +37,13 @@ int main(){
         writeJSON(jobj,temp_jfilename);
         //std::cout<<temp_param<<std::endl;
         std::vector<char> compressed_data = fieldCompressedData(entry);
+        std::vector<double>orig_data = fieldOutData(entry);
         SZ3Compressor sz3compress(temp_jfilename);
         //now do the decompression
         double* decompressed_data = sz3compress.decompress<double>(compressed_data.data());
         for(int j=0;j<n_ticks;j++){ //y axis is the number of ticks
             decompressed_hist->SetBinContent(channel_number,j,decompressed_data[j]);
+            original_hist->SetBinContent(channel_number,j,orig_data[j]);
         }
         comp_ratio->SetBinContent(channel_number,ratio);
         
@@ -48,5 +52,6 @@ int main(){
     rfile->cd();
     decompressed_hist->Write();
     comp_ratio->Write();
+    original_hist->Write();
     rfile->Close();
 }
