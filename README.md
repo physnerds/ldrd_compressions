@@ -86,7 +86,9 @@ TODO: Check out how plots of original and decompressed data are done in example 
 4. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
 TODO: Use the compression_interface IDEALEMCompressionTools.hxx to do compression and decompression of the data instead.
 
+5. compress_channels_SZ3.cxx: Compress (using SZ3) one channel readout at a time and write the output in RNTuple.
 
+6. decompress_sz3_test.cxx: Decompress (using SZ3) the output of 5 and create histogram from decompressed and original raw data.
 
 
 
