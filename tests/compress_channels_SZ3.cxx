@@ -36,13 +36,7 @@ int main(){
         double rel_err_bound = 8;
         double psnr_err_bound = 8;
         double l2norm_err_bound = 8;
-        std::string str_al_val = std::string(SZ3::enum2Str<SZ3::ALGO>(SZ3::ALGO_INTERP_LORENZO));
-        std::string str_al_eb = std::string(SZ3::enum2Str<SZ3::EB>(SZ3::EB_ABS));
-        std::string str_al_ial = std::string(SZ3::enum2Str<SZ3::INTERP_ALGO>(SZ3::INTERP_ALGO_CUBIC));
-        std::string str_abs_err_bound = std::to_string(abs_err_bound);
-        std::string str_rel_err_bound = std::to_string(abs_err_bound);
-        std::string str_psnr_err_bound = std::to_string(abs_err_bound);
-        std::string str_l2norm_err_bound = std::to_string(l2norm_err_bound);
+
         std::string temp_name = "params_sz3";
         std::string jfilename = temp_name+".json";
         WriteJSONConfig("SZ3",
@@ -68,7 +62,7 @@ int main(){
 
         //this is to make sure that the json content is updated before writing into rntuple.
         sz3compress.UpdateJSONContent(jfile);
-                           
+
         param->clear();
         *param = jfile.dump();
 
