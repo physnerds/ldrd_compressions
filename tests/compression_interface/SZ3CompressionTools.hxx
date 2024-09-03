@@ -32,7 +32,7 @@ public:
     }
 
 template<typename T> 
-    char* compress(const std::vector<T>& input_data) {
+    char* compress(const std::vector<T>& input_data, bool twod=false) {
         // Implement compression using SZ3 based on parameters in params
         std::vector<T> compressedData;
 
@@ -40,19 +40,19 @@ template<typename T>
 
         //params is protected member of CompressionTools.hxx
         ManageConfigFile(conf);
-
+        size_t cmpSize;
         char* compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
         params["Compressed_size"] = cmpSize;
         params["Original_size"] = input_data.size();
 
-        SZ3::calAbsErrorBound(conf, input_data.data());
-        params["Transformed_Error"] = conf.absErrorBound;
+        //SZ3::calAbsErrorBound(conf, input_data.data());
+        //params["Transformed_Error"] = conf.absErrorBound;
         return compressed_data;
     }
 
 
 template<typename T> 
-    T* decompress(const char* comp_data) {
+    T* decompress(const char* comp_data, bool twod=false) {
         size_t orig_size = static_cast<size_t>(params.at("Original_size"));
         size_t comp_size = static_cast<size_t>(params.at("Compressed_size"));
         SZ3::Config conf(orig_size);
@@ -63,12 +63,11 @@ template<typename T>
     }
     
     size_t GetCompressedSize(){
-        return cmpSize;
+        return static_cast<size_t>(params.at("Compressed_size"));
     }
 
 
 private:
-    size_t cmpSize;
     
 };
 

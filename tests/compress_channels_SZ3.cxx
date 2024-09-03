@@ -10,9 +10,10 @@ namespace SZ3{
     constexpr INTERP_ALGO LOCAL_INTERP_ALGO_OPTIONS[] = {INTERP_ALGO_CUBIC};  
 }
 
-const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833h_orig_1D.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
-const std::string outfilename = "test_SZ3_compression_err20.root" ; 
+const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833_1D.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
+const std::string outfilename = "test_SZ3_compression_err50.root" ; 
 const int tot_channels = 10240;
+double err_val = 20.00;
 int main(){ 
     H5::H5File file(filename,H5F_ACC_RDONLY);
     //we want to write the compressed data and original data in the RNTuple File...
@@ -24,7 +25,7 @@ int main(){
     auto param = model->MakeField<std::string>("parameters");
 
     auto ntuple = ROOT::Experimental::RNTupleWriter::Recreate(std::move(model), "Compressions", outfilename.c_str());
-    for(int dval = 0; dval<tot_channels; dval++){
+    for(int dval = 0; dval<tot_channels+1; dval++){
         std::string dsetname = "waveform_"+std::to_string(dval);
         std::cout<<"Compressing dataset "<<dsetname<<std::endl;
         std::vector<double>out_data = ReturnH5Data<double>(file,dsetname);
@@ -32,10 +33,10 @@ int main(){
         *fieldOutData = out_data;
         //we are creating a json file first...
         //TODO : Maybe use err_bound also as a parameter to do the test?
-        double abs_err_bound = 8 ;
-        double rel_err_bound = 8;
-        double psnr_err_bound = 8;
-        double l2norm_err_bound = 8;
+        double abs_err_bound = err_val;
+        double rel_err_bound = err_val;
+        double psnr_err_bound = err_val;
+        double l2norm_err_bound = err_val;
 
         std::string temp_name = "params_sz3";
         std::string jfilename = temp_name+".json";
@@ -56,7 +57,7 @@ int main(){
         double* decompressed_data = sz3compress.decompress<double>(compressed_data);
         
         std::size_t compressed_size = sz3compress.GetCompressedSize();
-        double comp_ratio = double(sizeof(int)*out_data.size()/(sizeof(char)*compressed_size));
+        double comp_ratio = double(sizeof(double)*out_data.size()/(sizeof(char)*compressed_size));
         jfile["COMPRESSION_RATIO"] = comp_ratio;
         jfile["ORIGINAL DSET"] = dval; //this is needed to keep track of original dset.
 
