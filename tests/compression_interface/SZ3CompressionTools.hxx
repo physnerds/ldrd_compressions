@@ -20,7 +20,6 @@ public:
         double rel_error_bound = static_cast<double>(params.at("REL_ERROR_BOUND"));
         double psnr_error_bound = static_cast<double>(params.at("PSNR_ERROR_BOUND"));
         double l2norm_error_bound = static_cast<double>(params.at("L2NORM_ERROR_BOUND")); 
-
         conf.cmprAlgo = param_algo;
         conf.errorBoundMode = param_eb;
         conf.interpAlgo = param_inter_algo;
@@ -34,14 +33,21 @@ public:
 template<typename T> 
     char* compress(const std::vector<T>& input_data, bool twod=false) {
         // Implement compression using SZ3 based on parameters in params
-        std::vector<T> compressedData;
-
-        SZ3::Config conf(input_data.size());
-
-        //params is protected member of CompressionTools.hxx
-        ManageConfigFile(conf);
+        char* compressed_data=nullptr;
         size_t cmpSize;
-        char* compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
+        if(!twod){
+            SZ3::Config conf = ConfigureSZ3(input_data.size());
+            //params is protected member of CompressionTools.hxx
+            ManageConfigFile(conf);
+            compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
+        }
+        else{
+            size_t xdim = static_cast<size_t>(params.at("XDIM"));
+            size_t ydim = static_cast<size_t>(params.at("YDIM"));
+            SZ3::Config conf = ConfigureSZ3(xdim,ydim);
+            ManageConfigFile(conf);
+            compressed_data = SZ_compress(conf,input_data.data(),cmpSize);
+        }
         params["Compressed_size"] = cmpSize;
         params["Original_size"] = input_data.size();
 
@@ -55,10 +61,20 @@ template<typename T>
     T* decompress(const char* comp_data, bool twod=false) {
         size_t orig_size = static_cast<size_t>(params.at("Original_size"));
         size_t comp_size = static_cast<size_t>(params.at("Compressed_size"));
-        SZ3::Config conf(orig_size);
-        ManageConfigFile(conf);
         T* decdata = new T[orig_size];
-        SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
+        if(!twod){
+            SZ3::Config conf(orig_size);
+            ManageConfigFile(conf);
+            SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
+        }
+        else{
+            size_t xdim = static_cast<size_t>(params.at("XDIM"));
+            size_t ydim = static_cast<size_t>(params.at("YDIM"));
+            SZ3::Config conf(xdim,ydim);
+            ManageConfigFile(conf);
+            SZ_decompress(conf,const_cast<char*>(comp_data),comp_size,decdata);
+            
+        }
         return decdata;
     }
     
@@ -66,6 +82,11 @@ template<typename T>
         return static_cast<size_t>(params.at("Compressed_size"));
     }
 
+template<typename ...Args>
+    SZ3::Config ConfigureSZ3(Args...args){
+        SZ3::Config conf(args...);
+        return conf;
+    }
 
 private:
     
