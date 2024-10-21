@@ -1,5 +1,5 @@
 /*
-/* Example  code that reads compressed data from RNTuple and decompresses it and plots 2D histogram.
+/* Example  code that reads compressed data from TTree and decompresses it and plots 2D histogram.
 */
 
 #include "H5Cpp.h"
@@ -8,6 +8,7 @@
 #include "compression_interface/WriteConfigParameters.h"
 #include "compression_interface/SZ3CompressionTools.hxx"
 #include "TFile.h"
+#include "TTree.h"
 #include "TH2D.h"
 #include "TH1D.h"
 
@@ -16,9 +17,16 @@ const std::string ntuplename = "Compressions";
 const int n_channels = 10240;
 const int n_ticks = 5859;
 int main(){
-    auto reader = ROOT::Experimental::RNTupleReader::Open(ntuplename.c_str(),rfilename.c_str());
-    reader->PrintInfo();
-    auto nentries = reader->GetNEntries();
+    std::vector<char>* fieldCompressedData = nullptr;
+    std::vector<double>* fieldOutData = nullptr;
+    std::string*param = nullptr;
+    TFile *infile = new TFile(rfilename.c_str(),"READ");
+    TTree *tree = infile->Get<TTree>(treename.c_str());
+    tree->SetBranchAddress("compressed_data",&fieldCompressedData);
+    tree->SetBranchAddress("out_data",&fieldOutData);
+    tree->SetBranchAddress("parameters",&param);
+
+    auto nentries = tree->GetNEntries();
     TH2D* decompressed_hist = new TH2D("decompressed_value","decompressed_value",n_channels,-0.5,10239.5,n_ticks,0,n_ticks);
     TH2D* original_hist = (TH2D*)decompressed_hist->Clone("original_value");
     TH1D* comp_ratio = new TH1D("compression_ratio","compression_ratio",n_channels,-0.5,10239.5);
@@ -36,8 +44,8 @@ int main(){
         double ratio = static_cast<double>(jobj.at("COMPRESSION_RATIO"));
         writeJSON(jobj,temp_jfilename);
         //std::cout<<temp_param<<std::endl;
-        std::vector<char> compressed_data = fieldCompressedData(entry);
-        std::vector<double>orig_data = fieldOutData(entry);
+        std::vector<char> compressed_data = *fieldCompressedData;
+        std::vector<double>orig_data = *fieldOutData;
         SZ3Compressor sz3compress(temp_jfilename);
         //now do the decompression
         double* decompressed_data = sz3compress.decompress<double>(compressed_data.data());

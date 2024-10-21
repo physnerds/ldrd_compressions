@@ -2,9 +2,9 @@
 #include "SZ3/api/sz.hpp"
 #include "SZ3/utils/Config.hpp"
 
-//RNTUPLE headers
-#include <ROOT/RNTuple.hxx>
-#include <ROOT/RNTupleModel.hxx>
+//TTree Headers
+#include "TTree.h"
+#include "TFile.h"
 
 //class for the SZ3 Compressor
 class SZ3Compressor : public Compressor {

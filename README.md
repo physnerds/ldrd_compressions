@@ -78,17 +78,11 @@ And compile the code:
 1. mytest.cxx: A standalone test code that uses SZ3 to compress and decompress the synthetic waveform data, calculate KS value, compression ratio and draw original and decompressed waveform data. 
 TODO: Use the compression_interface tool SZ3CompressionTools.cxx to compress and decompress the data instead.
 
-3. mytest_SZ3.cxx: A test code that uses the APIs of the compression framework (based on SZ3) to do the compression and decompression of the synthetic waveform and writes the original and compressed waveform in RNTuple along with the compression parameters.
+2. compress_channels_SZ3.cxx: Compress (using SZ3) one channel readout at a time and write the output in RNTuple.
 
-3. mytest_mgard.cxx: A test code that uses the APIs of the compression framework (based on MGARD) to do compression and decompression of the synthetic waveform data. 
-TODO: Check out how plots of original and decompressed data are done in example 3 and try to reimplement it here.
+3. decompress_sz3_test.cxx: Decompress (using SZ3) the output of 2 and create histogram from decompressed and original raw data.
 
-4. mytest_idealem_RNTUPLE.cxx: A test code that compressed and decompressed the synthetic data and writes the compressed data and decompressed data in RNTuple. 
-TODO: Use the compression_interface IDEALEMCompressionTools.hxx to do compression and decompression of the data instead.
-
-5. compress_channels_SZ3.cxx: Compress (using SZ3) one channel readout at a time and write the output in RNTuple.
-
-6. decompress_sz3_test.cxx: Decompress (using SZ3) the output of 5 and create histogram from decompressed and original raw data.
+4. compress_channels_SZ3_2D.cxx: Compression of all channels at a time.
 
 
 

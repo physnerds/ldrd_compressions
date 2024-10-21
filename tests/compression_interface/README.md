@@ -1,5 +1,5 @@
 ## Compression Interface
-Write an interface that connects to RNTuple API.
+Write an interface that connects to TTree API.
 It should have the following functionalities:
 
 ### Functionalities
@@ -10,13 +10,13 @@ Compress the original data
 CompressData(orig_data,......)
 First variadic template argument -->configuration parameter
 Return compressed data
-Save Configuration Parameter [json?]
+Save Configuration Parameter [json]
 
 #### Decompressor
 Decompress the compressed data
 DecompressData(comp_data,...)
 Return decompressed data
-First variadic template argument --> configuration parameter [json?]
+First variadic template argument --> configuration parameter [json]
 
 
 

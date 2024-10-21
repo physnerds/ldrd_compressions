@@ -4,6 +4,9 @@
 #include "compression_interface/WriteConfigParameters.h"
 #include "compression_interface/SZ3CompressionTools.hxx"
 
+#include "TFile.h"
+#include "TTree.h"
+
 namespace SZ3{
     constexpr EB LOCAL_EB_OPTIONS[] = {EB_ABS};  
     constexpr const ALGO LOCAL_ALGO_OPTIONS[] = {ALGO_INTERP_LORENZO};
@@ -16,15 +19,14 @@ const int tot_channels = 10240;
 double err_val = 20.00;
 int main(){ 
     H5::H5File file(filename,H5F_ACC_RDONLY);
-    //we want to write the compressed data and original data in the RNTuple File...
-    //so we create the model schema....
-    //ROOT version might cause API issues...check on your own risk..
-    auto model = ROOT::Experimental::RNTupleModel::Create();
-    auto fieldOutData = model->MakeField<std::vector<double>>("out_data");
-    auto fieldCompressedData = model->MakeField<std::vector<char>>("compressed_data");
-    auto param = model->MakeField<std::string>("parameters");
 
-    auto ntuple = ROOT::Experimental::RNTupleWriter::Recreate(std::move(model), "Compressions", outfilename.c_str());
+    TFile *f  = new TFile(outfilename.c_str(),"RECREATE");
+    TTree *t = new TTree("Compressions","Compressions with SZ3");
+
+    std::vector<double>fieldOutData;
+    std::vector<char>fieldCompressedData;
+    std::string param;
+
     for(int dval = 0; dval<tot_channels+1; dval++){
         std::string dsetname = "waveform_"+std::to_string(dval);
         std::cout<<"Compressing dataset "<<dsetname<<std::endl;
@@ -72,10 +74,12 @@ int main(){
         fieldCompressedData->clear();
         *fieldCompressedData = comp_data;
 
-        ntuple->Fill();
+        t->Fill();
         std::remove(jfilename.c_str());
 
 
     }
-    
+
+    f->Write();
+    f->Close();
 }
