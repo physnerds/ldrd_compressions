@@ -10,8 +10,8 @@ namespace SZ3{
     constexpr INTERP_ALGO LOCAL_INTERP_ALGO_OPTIONS[] = {INTERP_ALGO_CUBIC};  
 }
 
-const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833_1D.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
-const std::string outfilename = "test_SZ3_compression_err50.root" ; 
+const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833_1DAfterNoise.h5" ; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
+const std::string outfilename = "test_SZ3_compression_err50_AfterNoise.root" ; 
 const int tot_channels = 10240;
 double err_val = 20.00;
 int main(){ 
@@ -41,7 +41,7 @@ int main(){
         std::string temp_name = "params_sz3";
         std::string jfilename = temp_name+".json";
         WriteJSONConfig("SZ3",
-        std::make_pair("ALGO_OPTIONS",SZ3::ALGO_INTERP_LORENZO),
+        std::make_pair("ALGO_OPTIONS",SZ3::ALGO_INTERP_LORENZO), //interpolation instead of lorenzo
         std::make_pair("EB_OPTIONS",SZ3::EB_ABS),
         std::make_pair("INTERP_ALGO",SZ3::INTERP_ALGO_CUBIC),
         std::make_pair("ABS_ERROR_BOUND",abs_err_bound),

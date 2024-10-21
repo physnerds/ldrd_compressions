@@ -10,11 +10,12 @@ namespace SZ3{
     constexpr INTERP_ALGO LOCAL_INTERP_ALGO_OPTIONS[] = {INTERP_ALGO_CUBIC};  
 }
 
-const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833_1D.h5"; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
-const std::string outfilename = "test_SZ3_compression_err20.root" ; 
+const std::string filename ="/home/abashyal/git_compression/compressiontests/new_magnify2-28052-20833_1DAfterNoise.h5"; //"/home/abashyal/compressiontests/waveforms_ver2.h5";
+const std::string outfilename = "test_SZ3_compression_err10.root" ; 
 const int tot_channels = 10240;
 const int tot_ticks = 5860;
 bool twoD = false;
+bool lorenzo2 = true;
 int main(){ 
     H5::H5File file(filename,H5F_ACC_RDONLY);
     std::vector<double> out_data;
@@ -43,6 +44,7 @@ int main(){
     std::make_pair("REL_ERROR_BOUND",rel_err_bound),
     std::make_pair("PSNR_ERROR_BOUND",psnr_err_bound),
     std::make_pair("L2NORM_ERROR_BOUND",l2norm_err_bound),
+    std::make_pair("LORENZO2",lorenzo2),
     std::make_pair("XDIM",tot_channels),
     std::make_pair("YDIM",tot_ticks)
     );
@@ -59,7 +61,5 @@ int main(){
     sz3compress.UpdateJSONContent(jfile);
     std::cout<<jfile.dump()<<std::endl;
     //this is to make sure that the json content is updated before writing into rntuple.
-
-    
     
 }

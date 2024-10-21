@@ -47,18 +47,13 @@ target_link_libraries(mytest PRIVATE ${libraries} )
 add_executable(mytest_sz3 mytest_SZ3.cxx)
 target_link_libraries(mytest_sz3 PRIVATE ${libraries} ROOT::ROOTNTuple)
 
-add_executable(mytest_mgard mytest_MGARD.cxx)
-target_link_libraries(mytest_mgard PRIVATE ${libraries})
-
-add_executable(mytest_mgardgen mytest_MGARDGeneral.cxx)
-target_link_libraries(mytest_mgardgen PRIVATE ${libraries})
-
-add_executable(mytest_idealem mytest_idealem.cxx)
-target_link_libraries(mytest_idealem PRIVATE ${libraries})
-
 add_executable(decompress_sz3_test decompress_sz3_test.cxx)
 target_link_libraries(decompress_sz3_test PRIVATE ${libraries} ROOT::ROOTNTuple)
 
-#add_executable(mytest_idealem_RNTUPLE mytest_idealem_RNTUPLE.cxx)
-#target_link_libraries(mytest_idealem_RNTUPLE PRIVATE ${libraries} ROOT::ROOTNTuple)
+add_executable(compress_channels_SZ3 compress_channels_SZ3.cxx)
+target_link_libraries(compress_channels_SZ3 PRIVATE ${libraries} ROOT::ROOTNTuple)
+
+add_executable(compress_channels_SZ3_2D compress_channels_SZ3_2D.cxx)
+target_link_libraries(compress_channels_SZ3_2D PRIVATE ${libraries} ROOT::ROOTNTuple)
+
 
