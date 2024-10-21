@@ -1,6 +1,6 @@
 # compressiontests
- This is feature/lcrc branch.
-
+Authors : Emma Weiler, Amit Bashyal
+Contact : abashyal@anl.gov
 ## Introduction
 This git project provides tools to create synthetic waveform and uses different intelligent compression frameworks to look at the compression and decompression of those synthetic waveform data. 
 
