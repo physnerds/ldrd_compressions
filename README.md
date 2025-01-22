@@ -10,8 +10,6 @@ We will be using the lcrc branch for the development. As the code evolves, we wi
 ### Download the project
 ```git clone git@github.com:physnerds/compressiontests.git```
 
-### Checkout the lcrc branch.
-```git checkout feature/lcrc```
 
 ## Waveform generator codes
 There are python macros that generates synthetic waveforms.
