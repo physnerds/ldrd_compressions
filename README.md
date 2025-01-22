@@ -8,7 +8,7 @@ This git project provides tools to create synthetic waveform and uses different 
 We will be using the lcrc branch for the development. As the code evolves, we will merge with the main branch.
 
 ### Download the project
-```git clone git@github.com:physnerds/compressiontests.git```
+```git@github.com:physnerds/ldrd_compressions.git```
 
 
 ## Waveform generator codes
